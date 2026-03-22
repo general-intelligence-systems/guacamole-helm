@@ -1,0 +1,28 @@
+apiVersion: v1
+entries:
+  guacamole:
+  - apiVersion: v2
+    appVersion: 1.6.0
+    created: "2026-03-22T04:22:17.068400987Z"
+    description: Apache Guacamole is a clientless remote desktop gateway. It supports
+      standard protocols like VNC, RDP, and SSH. This version of the helm chart includes
+      support for custom configuration such as OpenID and custom CA root certificate
+      capabilities. This helm chart will deploy pairs of guacamole and guacd containers
+      in Kubernetes for remote access into your secured environment.
+    digest: 6cd286c1a013ae1139e3f00c8e439ddc981dea9d59442b6f9b3737e7af390b3e
+    home: https://github.com/DeathByMisadventure/guacamole-helm
+    icon: https://guacamole.apache.org/images/guacamole-logo-64.png
+    keywords:
+    - guacamole
+    - remote-desktop
+    - vnc
+    - rdp
+    - ssh
+    name: guacamole
+    sources:
+    - https://guacamole.apache.org/
+    type: application
+    urls:
+    - guacamole-1.6.0.tgz
+    version: 1.6.0
+generated: "2026-03-22T04:22:17.06727416Z"
