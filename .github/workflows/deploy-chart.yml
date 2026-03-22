@@ -2,7 +2,7 @@ name: Release Helm Chart
 
 on:
   push:
-    branches: [trench]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
