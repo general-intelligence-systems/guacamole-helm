@@ -1,0 +1,55 @@
+name: Release Helm Chart
+
+on:
+  push:
+    branches: [trench]
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Package chart
+        run: |
+          helm dependency update .
+          helm package . --destination .deploy
+
+      - name: Checkout pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: .pages
+          fetch-depth: 0
+        continue-on-error: true
+
+      - name: Initialise pages branch if missing
+        run: |
+          if [ ! -d .pages/.git ]; then
+            mkdir -p .pages
+            cd .pages
+            git init
+            git checkout -b gh-pages
+          fi
+
+      - name: Update repo index
+        run: |
+          cp .deploy/*.tgz .pages/
+          helm repo index .pages
+
+      - name: Push to pages branch
+        run: |
+          cd .pages
+          git config user.name "helm-release[bot]"
+          git config user.email "helm-release[bot]@noreply.local"
+          git add .
+          git diff --cached --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "Release $(ls ../.deploy/*.tgz | xargs -I{} basename {} .tgz)"
+          git push origin gh-pages
